@@ -5,16 +5,35 @@
   background-color: #E4E2E5;
 }
 
+.content {
+  width: 258px;
+  height: 258px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  &:after {
+    content: ' ';
+    display: block;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 65px;
+    height: 20px;
+    background-image: url("../img/img_signature.png");
+    background-size: 65px 20px;
+
+  }
+}
+
 .img {
   &-wrapper {
     width: 250px;
     height: 250px;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 4px solid #000000;
+    border: 4px solid #01010B;
     overflow: hidden;
+    border-radius: 2px;
   }
 
   &-toggle {
