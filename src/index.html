@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Oops Drawing</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="css/main.css"/>
+</head>
+<body>
+<div class="wrap">
+    <main class="content">
+        <div class="img-wrapper">
+            <div class="img-toggle"></div>
+        </div>
+    </main>
+</div>
+<script>
+    window.addEventListener('load', function (e) {
+        document.querySelector('.img-toggle').classList.add('img-toggle--start')
+    })
+
+    window.addEventListener('click', function(e) {
+        if(e.target.classList.contains('img-toggle')) {
+            document.querySelector('.img-toggle').classList.add('img-toggle--end')
+            setTimeout(function() {
+                window.location = '/wave';
+            }, 1000)
+        }
+    })
+</script>
+</body>
+</html>
