@@ -7,7 +7,7 @@ var router = express.Router();
 
 var path = {
     dist: 'docs/',
-    html: 'public/html/'
+    html: 'html/'
 };
 
 
