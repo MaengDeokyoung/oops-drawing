@@ -6,12 +6,12 @@ var app = express();
 var router = express.Router();
 
 var path = {
-    dist: 'dist/',
+    dist: 'docs/',
     html: 'public/html/'
 };
 
 
-app.use(express.static(path.dist + 'public'));
+app.use(express.static(path.dist));
 app.get('/', function(req, res) {
     res.sendfile(path.dist + 'index.html');
 });

@@ -65,6 +65,25 @@
         waveCtx.restore();
     };
 
+    const drawShip = () => {
+        waveCtx.save();
+        waveCtx.beginPath();
+        waveCtx.fillStyle = '#ff0000';
+        waveCtx.lineWidth = 4;
+        let bottomCenterX = wave.width / 2;
+        let bottomCenterY = wave.height * 4 / 5 - 43;
+        waveCtx.moveTo(bottomCenterX, bottomCenterY);
+        waveCtx.lineTo(bottomCenterX + 50, bottomCenterY);
+        waveCtx.lineTo(bottomCenterX + 60, bottomCenterY - 20);
+        waveCtx.lineTo(bottomCenterX - 60, bottomCenterY - 20);
+        waveCtx.lineTo(bottomCenterX - 50, bottomCenterY);
+        waveCtx.lineTo(bottomCenterX, bottomCenterY);
+        waveCtx.stroke();
+        waveCtx.fill();
+        waveCtx.closePath();
+        waveCtx.restore();
+    };
+
     const resetUp = () => {
         if (adjustedMouseY < 0) {
             requestAnimationFrame(resetUp);
@@ -168,6 +187,8 @@
 
         drawMoon();
         drawWave(wave.width, wave.height, 61, 0.005, 7, wave.height * 4 / 5, "rgba(71, 78, 161, 1)", 19, 23);
+        drawShip();
+
         drawWave(wave.width, wave.height, 43, 0.007, 11, wave.height * 4 / 5, "rgba(99, 104, 244, 1)", 29, 31);
         drawWave(wave.width, wave.height, 33, 0.01, 5, wave.height * 4 / 5, "rgba(110, 122, 255, 1)", 17, 37);
 

@@ -33,20 +33,3 @@ body {
     overflow: hidden;
     border: 5px #000000 solid;
 }
-
-video:first-of-type {
-    width: 13%;
-    padding-top: 13%;
-    position: fixed;
-    bottom: 0;
-    left: 25%;
-}
-
-video:last-of-type {
-    width: 13%;
-    padding-top: 13%;
-    position: fixed;
-    bottom: 0;
-    right: 25%;
-    transform: rotateY(180deg);
-}

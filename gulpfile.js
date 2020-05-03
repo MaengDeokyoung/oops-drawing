@@ -14,7 +14,7 @@ var path = {
         root : 'src/'
     },
     dest : {
-        root : 'dist/'
+        root : 'docs/'
     }
 }
 
@@ -72,11 +72,11 @@ function buildJS(done){
 
 function buildCSS(done){
 
-    gulp.src([path.src.root + 'public/scss/**/*.scss'])
+    gulp.src([path.src.root + 'scss/**/*.scss'])
         .pipe(sourcemaps.init())
         .pipe(scss(scssOptions).on('error', scss.logError))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.dest.root + 'public/css/'))
+        .pipe(gulp.dest(path.dest.root + 'css/'))
         .pipe(browserSync.stream());
 
     done();
