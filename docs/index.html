@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Oops Drawing</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0">
-    <link rel="stylesheet" href="css/main.css"/>
+    <link rel="stylesheet" href="./css/main.css"/>
 </head>
 <body>
 <div class="wrap">
@@ -23,10 +23,11 @@
         if(e.target.classList.contains('img-toggle')) {
             document.querySelector('.img-toggle').classList.add('img-toggle--end')
             setTimeout(function() {
-                window.location = '/wave';
+                window.location = '/wave.html';
             }, 1000)
         }
     };
+
     window.addEventListener('click', clickEvent);
     window.addEventListener('touchend', clickEvent);
 </script>
