@@ -6,7 +6,8 @@
     let [adjustedMouseX, adjustedMouseY, slideValue] = [0.5, 0.5, 0.5],
         [firstX, firstY] = [0, 0],
         frames = 0,
-        isMouseDown = false;
+        isMouseDown = false,
+        shipBottomY = 0;
 
     window.addEventListener('resize', fitToWindowSize, false);
 
@@ -34,7 +35,7 @@
         waveCtx.restore();
     };
 
-    const drawWave = (width, height, amplitude, frequency, vibrate, offset, color, k1, k2) => {
+    const drawWave = (width, height, amplitude, frequency, vibrate, offset, color, k1, k2, isShipWave) => {
 
         let y;
         let cycleValue;
@@ -54,7 +55,11 @@
         for (let x = 0; x < w; x++) {
             y = Math.sin(x * frequency - frames / 20) * amplitude * cycleValue2 * slideValue;
             y = y - ((x > adjustedMouseX && x < w + adjustedMouseX) ? (10 * Math.cos((x - adjustedMouseX) / width * 2 * Math.PI) - 10) * adjustedMouseY : 0);
-            waveCtx.lineTo(x, y + (adjustedOffset + vibrate * cycleValue));
+            y = y + (adjustedOffset + vibrate * cycleValue);
+            waveCtx.lineTo(x, y);
+            if(x === Math.round(w / 2) && isShipWave) {
+                shipBottomY = y;
+            }
         }
 
         waveCtx.lineTo(w, h);
@@ -71,12 +76,12 @@
         waveCtx.fillStyle = '#ff0000';
         waveCtx.lineWidth = 4;
         let bottomCenterX = wave.width / 2;
-        let bottomCenterY = wave.height * 4 / 5 - 43;
+        let bottomCenterY = shipBottomY;
         waveCtx.moveTo(bottomCenterX, bottomCenterY);
-        waveCtx.lineTo(bottomCenterX + 50, bottomCenterY);
-        waveCtx.lineTo(bottomCenterX + 60, bottomCenterY - 20);
-        waveCtx.lineTo(bottomCenterX - 60, bottomCenterY - 20);
-        waveCtx.lineTo(bottomCenterX - 50, bottomCenterY);
+        waveCtx.lineTo(bottomCenterX + 80, bottomCenterY);
+        waveCtx.lineTo(bottomCenterX + 100, bottomCenterY - 40);
+        waveCtx.lineTo(bottomCenterX - 100, bottomCenterY - 40);
+        waveCtx.lineTo(bottomCenterX - 80, bottomCenterY);
         waveCtx.lineTo(bottomCenterX, bottomCenterY);
         waveCtx.stroke();
         waveCtx.fill();
@@ -186,11 +191,10 @@
         waveCtx.fillRect(0, 0, wave.width, wave.height);
 
         drawMoon();
-        drawWave(wave.width, wave.height, 61, 0.005, 7, wave.height * 4 / 5, "rgba(71, 78, 161, 1)", 19, 23);
+        drawWave(wave.width, wave.height, 61, 0.005, 7, wave.height * 4 / 5, "rgba(71, 78, 161, 1)", 19, 23, false);
         drawShip();
-
-        drawWave(wave.width, wave.height, 43, 0.007, 11, wave.height * 4 / 5, "rgba(99, 104, 244, 1)", 29, 31);
-        drawWave(wave.width, wave.height, 33, 0.01, 5, wave.height * 4 / 5, "rgba(110, 122, 255, 1)", 17, 37);
+        drawWave(wave.width, wave.height, 43, 0.007, 11, wave.height * 4 / 5, "rgba(99, 104, 244, 1)", 29, 31, true);
+        drawWave(wave.width, wave.height, 33, 0.01, 5, wave.height * 4 / 5, "rgba(110, 122, 255, 1)", 17, 37, false);
 
         frames++;
 
