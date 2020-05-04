@@ -16,11 +16,11 @@ instaImage.src = './../../img/img_instagram_moon.png';
 
     const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, instaImage);
 
-    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "#3A1D69", 19, 23);
+    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "rgba(58, 29, 105, .8)", 19, 23);
 
-    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "#FFCF5B", 29, 31);
+    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "rgba(255, 207, 91, .8)", 29, 31);
 
-    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "#1D87E2", 17, 37);
+    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "rgba(29, 135, 226, .8)", 17, 37);
 
     const ship = Ship.init(waveCtx, wave.width / 2, 0);
 
@@ -35,7 +35,7 @@ instaImage.src = './../../img/img_instagram_moon.png';
         audio.currentTime = 0;
         audio.play();
 
-        var context = new AudioContext();
+        var context = new (window.AudioContext || window.webkitAudioContext)();;
         var src = context.createMediaElementSource(audio);
         analyser = context.createAnalyser();
 
@@ -43,7 +43,6 @@ instaImage.src = './../../img/img_instagram_moon.png';
         analyser.connect(context.destination);
 
         analyser.fftSize = 256;
-
         var bufferLength = analyser.frequencyBinCount;
 
         dataArray = new Uint8Array(bufferLength);
