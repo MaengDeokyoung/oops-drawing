@@ -35,7 +35,7 @@ instaImage.src = './../../img/img_instagram_moon.png';
     var dataArray;
     var analyser;
 
-    document.getElementById('wave').addEventListener('click', () => {
+    let startAudio = () => {
         audio.currentTime = 0;
         audio.play();
 
@@ -51,7 +51,9 @@ instaImage.src = './../../img/img_instagram_moon.png';
         var bufferLength = analyser.frequencyBinCount;
 
         dataArray = new Uint8Array(bufferLength);
-    });
+    };
+    document.getElementById('wave').addEventListener('click', startAudio);
+    document.getElementById('wave').addEventListener('touchend', startAudio);
 
 
 
