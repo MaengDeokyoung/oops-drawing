@@ -29,7 +29,7 @@ export default class Ship {
     draw() {
         this._context.save();
         this._context.beginPath();
-        this._context.fillStyle = '#ff0000';
+        this._context.fillStyle = '#cccccc';
         this._context.lineWidth = 4;
 
         this._context.moveTo(this._shipBottomX, this._shipBottomY);

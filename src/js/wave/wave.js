@@ -93,7 +93,6 @@ export default class Wave {
         this._context.restore();
     }
 
-
     get width() {
         return this._width;
     }
@@ -156,6 +155,15 @@ export default class Wave {
 
     set sine(value) {
         this._sine = value;
+    }
+
+
+    get amplitude() {
+        return this._amplitude;
+    }
+
+    set amplitude(value) {
+        this._amplitude = value;
     }
 }
 

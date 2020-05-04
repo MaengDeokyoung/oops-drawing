@@ -156,4 +156,12 @@ export default class Wave {
     set sine(value) {
         this._sine = value;
     }
+
+    get amplitude() {
+        return this._amplitude;
+    }
+
+    set amplitude(value) {
+        this._amplitude = value;
+    }
 }
