@@ -17,12 +17,9 @@
         image.src = options.src;
 
         document.getElementById(parentId).appendChild(img);
-
     };
 
     window.LK = LK;
-
 })();
 
 const objectPadding = 100;
-

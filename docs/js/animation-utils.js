@@ -1,11 +1,11 @@
-(function() {
+(function () {
 
-    function AnimationUtil(){
+    function AnimationUtil() {
         var that = this;
         var frame = 0;
         var duration = 300;
         var t = 0;
-        var interpolator = function(t){
+        var interpolator = function (t) {
             return t;
         };
         var finalFrame = 30 / 1000 * duration;
@@ -15,22 +15,22 @@
         var targets = [];
         this.isRunning = false;
 
-        var animateTargets = function(value){
-            for(var i = 0 ; i < targets.length ; i++){
+        var animateTargets = function (value) {
+            for (var i = 0; i < targets.length; i++) {
                 targets[i](value);
             }
         };
 
-        var getCurrentTime = function(){
+        var getCurrentTime = function () {
             return window.performance && window.performance.now && window.performance.timing && window.performance.timing.navigationStart ? window.performance.now() + window.performance.timing.navigationStart : Date.now();
         };
 
-        var startAnimation = function(val, callback){
-            return function(){
-                for(var i = 0 ; i < repeatCount ; i++){
-                    setTimeout(function(){
-                        setTimeout(function reverse(){
-                            if(frame == 0){
+        var startAnimation = function (val, callback) {
+            return function () {
+                for (var i = 0; i < repeatCount; i++) {
+                    setTimeout(function () {
+                        setTimeout(function reverse() {
+                            if (frame == 0) {
                                 startTime = getCurrentTime();
                             }
                             var timeStampIn = getCurrentTime();
@@ -53,14 +53,14 @@
                         }, delay);
                     }, (delay + duration) * i);
                 }
-            }
+            };
         };
 
         return new Object({
-            isRunning : that.isRunning,
-            start : function() {
+            isRunning: that.isRunning,
+            start: function () {
                 var object = this;
-                if(!object.isRunning) {
+                if (!object.isRunning) {
                     object.isRunning = true;
                     startAnimation(function (value) {
                         return value;
@@ -69,9 +69,9 @@
                     })();
                 }
             },
-            reverse : function() {
+            reverse: function () {
                 var object = this;
-                if(!object.isRunning) {
+                if (!object.isRunning) {
                     object.isRunning = true;
                     startAnimation(function (value) {
                         return 1 - value;
@@ -79,34 +79,33 @@
                         object.isRunning = false;
                     })();
                 }
-
             },
-            setInterpolator : function(interpol){
+            setInterpolator: function (interpol) {
                 interpolator = interpol;
                 return this;
             },
-            setDuration: function(dur){
+            setDuration: function (dur) {
                 duration = dur;
                 finalFrame = 30 / 1000 * dur;
                 return this;
             },
-            addTarget: function(animation){
+            addTarget: function (animation) {
                 targets.push(animation);
                 return this;
             },
-            setEndListener: function(listener){
+            setEndListener: function (listener) {
                 that.onAnimationEnd = listener;
                 return this;
             },
-            setStartDelay: function(startDelay){
+            setStartDelay: function (startDelay) {
                 delay = startDelay;
                 return this;
             },
-            setRepeatCount: function(count){
+            setRepeatCount: function (count) {
                 repeatCount = count;
                 return this;
             }
-        })
+        });
     }
 
     window.AnimationUtil = AnimationUtil;

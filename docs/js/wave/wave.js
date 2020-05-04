@@ -1,5 +1,5 @@
 export default class Wave {
-    constructor () {
+    constructor() {
         this._context = null;
         this._width = 0;
         this._height = 0;
@@ -15,12 +15,12 @@ export default class Wave {
         this._adjustedMouseY = 0.5;
         this._slideValue = 1;
         this._cosine = 1;
-        this._sine = 1
+        this._sine = 1;
     }
 
-    static init (context, width, height, amplitude, frequency, vibrate, color, k1, k2) {
+    static init(context, width, height, amplitude, frequency, vibrate, color, k1, k2) {
 
-        const wave = new Wave()
+        const wave = new Wave();
 
         wave._context = context;
         wave._width = width;
@@ -39,12 +39,12 @@ export default class Wave {
     static getCosineAndSine(x, y) {
         const bevel = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
         return {
-            cosine:  x / bevel,
+            cosine: x / bevel,
             sine: y / bevel
-        }
+        };
     }
 
-    draw (frames) {
+    draw(frames) {
         let y;
         let cycleValue;
         let cycleValue2;
@@ -70,12 +70,12 @@ export default class Wave {
 
         for (let x = 0; x < w + lineFraction; x += lineFraction) {
             y = Math.sin(x * this._frequency - frames / 20) * this._amplitude * cycleValue2 * this._slideValue;
-            y = y - ((x > this._adjustedMouseX && x < w + this._adjustedMouseX) ? (10 * Math.cos((x - this._adjustedMouseX) / this._width * 2 * Math.PI) - 10) * this._adjustedMouseY : 0);
+            y = y - (x > this._adjustedMouseX && x < w + this._adjustedMouseX ? (10 * Math.cos((x - this._adjustedMouseX) / this._width * 2 * Math.PI) - 10) * this._adjustedMouseY : 0);
             y = y + (adjustedOffset + this._vibrate * cycleValue);
 
             this._context.lineTo(x, y);
 
-            if(Math.round(x / lineFraction) === Math.round(w / 2 / lineFraction)) {
+            if (Math.round(x / lineFraction) === Math.round(w / 2 / lineFraction)) {
                 this._shipBottomY = y;
                 let cosineAndSine = Wave.getCosineAndSine(x - previousX, y - previousY);
                 this._cosine = cosineAndSine.cosine;
@@ -92,7 +92,6 @@ export default class Wave {
         this._context.closePath();
         this._context.restore();
     }
-
 
     get width() {
         return this._width;
@@ -158,4 +157,3 @@ export default class Wave {
         this._sine = value;
     }
 }
-

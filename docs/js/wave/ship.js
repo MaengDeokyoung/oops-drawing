@@ -21,10 +21,8 @@ export default class Ship {
         let adjustX = x - this._shipBottomX;
         let adjustY = y - this._shipBottomY;
 
-        return [adjustX * this._cosine - adjustY * this._sine + this._shipBottomX,
-            adjustX * this._sine + adjustY * this._cosine + this._shipBottomY];
+        return [adjustX * this._cosine - adjustY * this._sine + this._shipBottomX, adjustX * this._sine + adjustY * this._cosine + this._shipBottomY];
     }
-
 
     draw() {
         this._context.save();
@@ -42,9 +40,9 @@ export default class Ship {
         this._context.fill();
         this._context.closePath();
         this._context.restore();
-    };
+    }
 
-    set shipBottomY (shipBottomY) {
+    set shipBottomY(shipBottomY) {
         this._shipBottomY = shipBottomY;
     }
 

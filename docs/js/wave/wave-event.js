@@ -46,14 +46,14 @@ const reset = () => {
 };
 
 const waveEvent = {
-    'mousedown': (e) => {
+    'mousedown': e => {
         isMouseDown = true;
         firstX = e.clientX;
         firstY = e.clientY;
         cancelAnimationFrame(resetUp);
         cancelAnimationFrame(resetDown);
     },
-    'mousemove': (e) => {
+    'mousemove': e => {
         if (isMouseDown) {
             let endX = wave.width / 2 - e.clientX;
             let endY = firstY - e.clientY;
@@ -61,22 +61,22 @@ const waveEvent = {
             adjustedMouseX = -endX;
         }
     },
-    'mouseup': (e) => {
+    'mouseup': e => {
         isMouseDown = false;
         reset();
     },
-    'mouseout': (e) => {
+    'mouseout': e => {
         isMouseDown = false;
         reset();
     },
-    'touchstart': (e) => {
+    'touchstart': e => {
         isMouseDown = true;
         firstX = e.touches[0].clientX;
         firstY = e.touches[0].clientY;
         cancelAnimationFrame(resetUp);
         cancelAnimationFrame(resetDown);
     },
-    'touchmove': (e) => {
+    'touchmove': e => {
         if (isMouseDown) {
             let endX = firstX - e.touches[0].clientX;
             let endY = firstY - e.touches[0].clientY;
@@ -85,12 +85,12 @@ const waveEvent = {
             console.log(adjustedMouseX);
         }
     },
-    'touchend': (e) => {
+    'touchend': e => {
         isMouseDown = false;
         reset();
     }
 };
 
-for(let eventName in waveEvent) {
+for (let eventName in waveEvent) {
     window.addEventListener(eventName, waveEvent[eventName], false);
 }

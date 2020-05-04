@@ -8,7 +8,7 @@ export default class Moon {
         this._y = 0;
     }
 
-    static init = (context, x, y, radius) => {
+    static init (context, x, y, radius) {
         const moon = new Moon();
         moon._context = context;
         moon._radius = radius;

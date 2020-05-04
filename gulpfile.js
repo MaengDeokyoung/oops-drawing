@@ -3,6 +3,7 @@ var sourcemaps = require('gulp-sourcemaps');
 var scss = require('gulp-sass');
 var browserSync = require('browser-sync').create();
 var nodemon = require('gulp-nodemon');
+const babel = require('gulp-babel');
 
 
 // gulp.task(name, deps, func)
@@ -53,16 +54,8 @@ function copyHTML(done){
 
 function buildJS(done){
 
-    // Build **/*.js in Doc
-    gulp.src([path.src.root + 'js/*.js'], {sourcemaps: true})
-    // stripDebug : 모든 console.log, alert 제거
-    // .pipe(stripDebug())
-    //     .pipe(sourcemaps.init())
-        // .pipe(sourcemaps.write())
-        .pipe(gulp.dest(path.dest.root + 'js/', {sourcemaps: true}))
-        .pipe(browserSync.stream());
-
     gulp.src([path.src.root + '**/*.js'])
+        .pipe(babel())
         .pipe(gulp.dest(path.dest.root))
         .pipe(browserSync.stream());
 

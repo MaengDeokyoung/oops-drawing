@@ -1,23 +1,23 @@
 
 
 export default class Moon {
-    constructor () {
+    constructor() {
         this._context = null;
         this._radius = 0;
         this._x = 0;
         this._y = 0;
     }
 
-    static init = (context, x, y, radius) => {
+    static init(context, x, y, radius) {
         const moon = new Moon();
         moon._context = context;
         moon._radius = radius;
         moon._x = x;
         moon._y = y;
         return moon;
-    };
+    }
 
-    draw (frames) {
+    draw(frames) {
         this._context.save();
         this._context.beginPath();
         this._context.arc(this._x, this._y + Math.cos(frames / 40) * 5, this._radius, 0, 2 * Math.PI, false);
@@ -37,8 +37,7 @@ export default class Moon {
         this._context.stroke();
         this._context.closePath();
         this._context.restore();
-    };
-
+    }
 
     get radius() {
         return this._radius;
