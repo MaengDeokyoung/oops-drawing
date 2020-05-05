@@ -98,6 +98,10 @@ function copyResource(done){
         .pipe(gulp.dest(path.dest.root))
         .pipe(browserSync.stream());
 
+    gulp.src([path.src.root + '**/*.ogg'])
+        .pipe(gulp.dest(path.dest.root))
+        .pipe(browserSync.stream());
+
     gulp.src([path.src.root + '**/*.mp4'])
         .pipe(gulp.dest(path.dest.root))
         .pipe(browserSync.stream());

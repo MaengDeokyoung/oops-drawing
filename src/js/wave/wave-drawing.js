@@ -13,7 +13,6 @@ window.onload = () => {
 
     const wave = document.getElementById('wave'),
         waveCtx = wave.getContext('2d', {alpha: false});
-
     const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, '');
 
     const wave1 = Wave.init(waveCtx, wave.width, wave.height,
@@ -86,7 +85,7 @@ window.onload = () => {
             dataArray = new Uint8Array(bufferLength);
 
             const request = new XMLHttpRequest();
-            request.open('GET', './../img/instagram_cover.mp3');
+            request.open('GET', './../img/instagram_cover.ogg');
             request.responseType = 'arraybuffer';
             request.onload = (event) => {
                 audioSource = audioCtx.createBufferSource();
@@ -117,8 +116,6 @@ window.onload = () => {
     document.getElementById('wave').addEventListener('click', playAudio);
 
     const drawAll = () => {
-
-
         if (analyser) {
             analyser.getByteFrequencyData(dataArray);
 
@@ -177,9 +174,6 @@ window.onload = () => {
     }
 
     fitToWindowSize();
-
     drawAll();
-
-
 };
 
