@@ -82,7 +82,7 @@ window.onload = () => {
             dataArray = new Uint8Array(bufferLength);
 
             const request = new XMLHttpRequest();
-            request.open('GET', './../../img/instagram_cover.mp3');
+            request.open('GET', './../img/instagram_cover.mp3');
             request.responseType = 'arraybuffer';
             request.onload = event => {
                 audioSource = audioCtx.createBufferSource();
@@ -108,8 +108,6 @@ window.onload = () => {
             if (paused) play();else stop();
         }
     };
-
-    let touchstart = false;
 
     document.getElementById('wave').addEventListener('click', playAudio);
 
