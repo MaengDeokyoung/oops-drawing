@@ -2,13 +2,14 @@ import Wave from './wave.js';
 import Moon from './moon.js';
 import Ship from './ship.js';
 
-var audio = document.querySelector('audio');
-
-(() => {
+window.onload = () => {
 
     const wave1Amplitude = 10;
     const wave2Amplitude = 10;
     const wave3Amplitude = 10;
+
+    let dataArray;
+    let analyser;
 
     const wave = document.getElementById('wave'),
           waveCtx = wave.getContext('2d', { alpha: false });
@@ -25,41 +26,93 @@ var audio = document.querySelector('audio');
 
     let frames = 0;
 
-    var dataArray;
-    var analyser;
+    var startedAt;
+    var pausedAt;
+    var paused;
+    var buffer;
 
-    let play = () => {
-        if (audio.paused) {
-            audio.play();
-        } else {
-            audio.pause();
-        }
-    };
-    let startAudio = async () => {
-        play();
-    };
+    const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    let audioSource;
 
-    document.getElementById('wave').addEventListener('click', () => {
-        startAudio();
+    function play() {
+        audioSource = audioCtx.createBufferSource();
+        analyser = audioCtx.createAnalyser();
 
-        var context = new (window.AudioContext || window.webkitAudioContext)();
-        var src = context.createMediaElementSource(audio);
-
-        analyser = context.createAnalyser();
-
-        src.connect(analyser);
-        analyser.connect(context.destination);
+        audioSource.connect(analyser);
+        analyser.connect(audioCtx.destination);
 
         analyser.fftSize = 256;
-        var bufferLength = analyser.frequencyBinCount;
+
+        const bufferLength = analyser.frequencyBinCount;
 
         dataArray = new Uint8Array(bufferLength);
-    });
-    document.getElementById('wave').addEventListener('touchend', startAudio);
+
+        audioSource.buffer = buffer;
+
+        paused = false;
+
+        if (pausedAt) {
+            startedAt = Date.now() - pausedAt;
+            audioSource.start(0, pausedAt / 1000);
+        } else {
+            startedAt = Date.now();
+            audioSource.start(0);
+        }
+    }
+
+    function stop() {
+        audioSource.stop(0);
+        pausedAt = Date.now() - startedAt;
+        paused = true;
+    }
+
+    let playAudio = () => {
+        if (!audioSource) {
+            audioSource = audioCtx.createBufferSource();
+
+            analyser = audioCtx.createAnalyser();
+
+            audioSource.connect(analyser);
+            analyser.connect(audioCtx.destination);
+
+            analyser.fftSize = 256;
+
+            const bufferLength = analyser.frequencyBinCount;
+
+            dataArray = new Uint8Array(bufferLength);
+
+            const request = new XMLHttpRequest();
+            request.open('GET', './../../img/instagram_cover.mp3');
+            request.responseType = 'arraybuffer';
+            request.onload = event => {
+                audioSource = audioCtx.createBufferSource();
+                analyser = audioCtx.createAnalyser();
+
+                audioSource.connect(analyser);
+                analyser.connect(audioCtx.destination);
+
+                analyser.fftSize = 256;
+
+                const bufferLength = analyser.frequencyBinCount;
+
+                dataArray = new Uint8Array(bufferLength);
+
+                audioCtx.decodeAudioData(request.response, decodedBuffer => {
+                    buffer = decodedBuffer;
+                    audioSource.buffer = decodedBuffer;
+                    audioSource.start();
+                });
+            };
+            request.send();
+        } else {
+            if (paused) play();else stop();
+        }
+    };
+
+    document.getElementById('wave').addEventListener('click', playAudio);
+    document.getElementById('wave').addEventListener('touchend', playAudio);
 
     const drawAll = () => {
-
-        waveCtx.clearRect(0, 0, wave.width, wave.height);
 
         if (analyser) {
             analyser.getByteFrequencyData(dataArray);
@@ -85,6 +138,7 @@ var audio = document.querySelector('audio');
         ship.color = "rgb(" + wave3.amplitude * 4 + "," + wave1.amplitude / 4 + "," + wave2.amplitude * 4 + ")";
         moon.color = "rgb(" + wave1.amplitude + "," + wave2.amplitude + "," + wave3.amplitude + ")";
 
+        waveCtx.clearRect(0, 0, wave.width, wave.height);
         waveCtx.fillRect(0, 0, wave.width, wave.height);
         moon.draw(frames);
         wave1.draw(frames);
@@ -120,4 +174,4 @@ var audio = document.querySelector('audio');
     fitToWindowSize();
 
     drawAll();
-})();
+};
