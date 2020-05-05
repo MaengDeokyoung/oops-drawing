@@ -109,8 +109,9 @@ window.onload = () => {
         }
     };
 
+    let touchstart = false;
+
     document.getElementById('wave').addEventListener('click', playAudio);
-    document.getElementById('wave').addEventListener('touchend', playAudio);
 
     const drawAll = () => {
 
