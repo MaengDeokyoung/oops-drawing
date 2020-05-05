@@ -6,13 +6,15 @@ export default class Ship {
         this._shipBottomY = 0;
         this._cosine = 1;
         this._sine = 0;
+        this._color = '';
     }
 
-    static init(context, shipBottomX, shipBottomY) {
+    static init(context, shipBottomX, shipBottomY, color) {
         const ship = new Ship();
         ship._context = context;
         ship._shipBottomX = shipBottomX;
         ship._shipBottomY = shipBottomY;
+        ship._color = color;
         return ship;
     }
 
@@ -27,7 +29,7 @@ export default class Ship {
     draw() {
         this._context.save();
         this._context.beginPath();
-        this._context.fillStyle = '#cccccc';
+        this._context.fillStyle = this._color;
         this._context.lineWidth = 4;
 
         this._context.moveTo(this._shipBottomX, this._shipBottomY);
@@ -68,5 +70,13 @@ export default class Ship {
 
     set sine(value) {
         this._sine = value;
+    }
+
+    get color() {
+        return this._color;
+    }
+
+    set color(value) {
+        this._color = value;
     }
 }

@@ -165,5 +165,14 @@ export default class Wave {
     set amplitude(value) {
         this._amplitude = value;
     }
+
+
+    get color() {
+        return this._color;
+    }
+
+    set color(value) {
+        this._color = value;
+    }
 }
 

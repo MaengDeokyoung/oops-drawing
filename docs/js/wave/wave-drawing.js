@@ -2,8 +2,7 @@ import Wave from './wave.js';
 import Moon from './moon.js';
 import Ship from './ship.js';
 
-const instaImage = new Image();
-instaImage.src = './../../img/img_instagram_moon.png';
+var audio = document.querySelector('audio');
 
 (() => {
 
@@ -14,29 +13,38 @@ instaImage.src = './../../img/img_instagram_moon.png';
     const wave = document.getElementById('wave'),
           waveCtx = wave.getContext('2d', { alpha: false });
 
-    const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, instaImage);
+    const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, '');
 
-    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "rgba(58, 29, 105, .8)", 19, 23);
+    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "rgba(235, 13, 124, .6)", 19, 23);
 
-    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "rgba(255, 207, 91, .8)", 29, 31);
+    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "rgba(255, 207, 91, .6)", 29, 31);
 
-    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "rgba(29, 135, 226, .8)", 17, 37);
+    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "rgba(29, 135, 226, .6)", 17, 37);
 
-    const ship = Ship.init(waveCtx, wave.width / 2, 0);
+    const ship = Ship.init(waveCtx, wave.width / 2, 0, '#cccccc');
 
     let frames = 0;
-
-    var audio = document.querySelector('audio');
 
     var dataArray;
     var analyser;
 
-    let startAudio = () => {
-        audio.currentTime = 0;
-        audio.play();
+    let play = () => {
+        if (audio.paused) {
+            audio.play();
+        } else {
+            audio.pause();
+        }
+    };
+    let startAudio = async () => {
+        play();
+    };
 
-        var context = new (window.AudioContext || window.webkitAudioContext)();;
+    document.getElementById('wave').addEventListener('click', () => {
+        startAudio();
+
+        var context = new (window.AudioContext || window.webkitAudioContext)();
         var src = context.createMediaElementSource(audio);
+
         analyser = context.createAnalyser();
 
         src.connect(analyser);
@@ -46,26 +54,12 @@ instaImage.src = './../../img/img_instagram_moon.png';
         var bufferLength = analyser.frequencyBinCount;
 
         dataArray = new Uint8Array(bufferLength);
-    };
-    document.getElementById('wave').addEventListener('click', startAudio);
+    });
     document.getElementById('wave').addEventListener('touchend', startAudio);
 
     const drawAll = () => {
 
         waveCtx.clearRect(0, 0, wave.width, wave.height);
-        waveCtx.fillStyle = '#EB0D7C';
-        waveCtx.fillRect(0, 0, wave.width, wave.height);
-
-        moon.draw(frames);
-        wave1.draw(frames);
-        ship.draw(frames);
-        ship.shipBottomY = wave2.shipBottomY;
-        wave2.draw(frames);
-        wave3.draw(frames);
-
-        ship._cosine = wave2._cosine;
-        ship._sine = wave2._sine;
-        frames++;
 
         if (analyser) {
             analyser.getByteFrequencyData(dataArray);
@@ -86,6 +80,22 @@ instaImage.src = './../../img/img_instagram_moon.png';
             wave2.amplitude = wave2Amplitude + adjustedWaveAmplitude[1] / 20;
             wave3.amplitude = wave3Amplitude + adjustedWaveAmplitude[2] / 20;
         }
+
+        waveCtx.fillStyle = "rgb(" + wave2.amplitude / 2 + "," + wave3.amplitude / 2 + "," + wave1.amplitude / 2 + ")";
+        ship.color = "rgb(" + wave3.amplitude * 4 + "," + wave1.amplitude / 4 + "," + wave2.amplitude * 4 + ")";
+        moon.color = "rgb(" + wave1.amplitude + "," + wave2.amplitude + "," + wave3.amplitude + ")";
+
+        waveCtx.fillRect(0, 0, wave.width, wave.height);
+        moon.draw(frames);
+        wave1.draw(frames);
+        ship.draw(frames);
+        ship.shipBottomY = wave2.shipBottomY;
+        wave2.draw(frames);
+        wave3.draw(frames);
+
+        ship.cosine = wave2.cosine;
+        ship.sine = wave2.sine;
+        frames++;
 
         requestAnimationFrame(drawAll);
     };
