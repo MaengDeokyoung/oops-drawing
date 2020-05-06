@@ -15,11 +15,11 @@ window.onload = () => {
           waveCtx = wave.getContext('2d', { alpha: false });
     const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, '');
 
-    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "rgba(235, 13, 124, .6)", 19, 23);
+    const wave1 = Wave.init(waveCtx, wave.width, wave.height, 61, 0.005, 7, "rgba(235, 13, 124, .3)", 19, 23);
 
-    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "rgba(255, 207, 91, .6)", 29, 31);
+    const wave2 = Wave.init(waveCtx, wave.width, wave.height, 43, 0.007, 11, "rgba(255, 207, 91, .3)", 29, 31);
 
-    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "rgba(29, 135, 226, .6)", 17, 37);
+    const wave3 = Wave.init(waveCtx, wave.width, wave.height, 33, 0.01, 5, "rgba(29, 135, 226, .3)", 17, 37);
 
     const ship = Ship.init(waveCtx, wave.width / 2, 0, '#cccccc');
 
@@ -111,7 +111,18 @@ window.onload = () => {
 
     document.getElementById('wave').addEventListener('click', playAudio);
 
-    const drawAll = () => {
+    const FRAMES_PER_SECOND = 60; // Valid values are 60,30,20,15,10...
+    // set the mim time to render the next frame
+    const FRAME_MIN_TIME = 1000 / 60 * (60 / FRAMES_PER_SECOND) - 1000 / 60 * 0.5;
+    let lastFrameTime = 0; // the last frame time
+
+    const drawAll = time => {
+        if (time - lastFrameTime < FRAME_MIN_TIME) {
+            //skip the frame if the call is too early
+            requestAnimationFrame(drawAll);
+            return;
+        }
+
         if (analyser) {
             analyser.getByteFrequencyData(dataArray);
 
@@ -149,6 +160,7 @@ window.onload = () => {
         ship.sine = wave2.sine;
         frames++;
 
+        lastFrameTime = time;
         requestAnimationFrame(drawAll);
     };
 
