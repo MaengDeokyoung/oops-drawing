@@ -16,13 +16,13 @@ window.onload = () => {
     const moon = Moon.init(waveCtx, wave.width / 2, 150, 20, '');
 
     const wave1 = Wave.init(waveCtx, wave.width, wave.height,
-        61, 0.005, 7, "rgba(235, 13, 124, .3)", 19, 23);
+        61, 0.005, 7, "rgba(235, 13, 124, 1)", 19, 23);
 
     const wave2 = Wave.init(waveCtx, wave.width, wave.height,
-        43, 0.007, 11, "rgba(255, 207, 91, .3)", 29, 31);
+        43, 0.007, 11, "rgba(255, 207, 91, 1)", 29, 31);
 
     const wave3 = Wave.init(waveCtx, wave.width, wave.height,
-        33, 0.01, 5, "rgba(29, 135, 226, .3)", 17, 37);
+        33, 0.01, 5, "rgba(29, 135, 226, 1)", 17, 37);
 
     const ship = Ship.init(waveCtx, wave.width / 2, 0, '#cccccc');
 
@@ -147,7 +147,7 @@ window.onload = () => {
             wave3.amplitude = wave3Amplitude + adjustedWaveAmplitude[2] / 20;
         }
 
-        waveCtx.fillStyle = "rgb(" + wave2.amplitude / 2 + "," + wave3.amplitude / 2 + "," + wave1.amplitude / 2 + ")";
+        waveCtx.fillStyle = "rgba(58, 29, 105, 1)";
         ship.color = "rgb(" + wave3.amplitude * 4 + "," + wave1.amplitude / 4 + "," + wave2.amplitude * 4 + ")";
         moon.color = "rgb(" + wave1.amplitude + "," + wave2.amplitude + "," + wave3.amplitude + ")";
 

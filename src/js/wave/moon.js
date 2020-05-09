@@ -121,7 +121,7 @@ export default class Moon {
         this._context.shadowOffsetY = 0;
         this._context.shadowBlur = 20;
 
-        this._context.lineWidth = 4;
+        this._context.lineWidth = 3;
         this._context.fillStyle = this._color;
         this._context.fill(rect);
         this._context.stroke(rect);
